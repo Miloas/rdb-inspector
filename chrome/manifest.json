@@ -1,0 +1,12 @@
+{
+  "name": "Rdb Inspector",
+  "version": "0.0.1",
+  "description": "Chrome extension to allow inspection of Rdb.",
+  "minimum_chrome_version": "43.0",
+  "devtools_page": "devtools.html",
+  "manifest_version": 2,
+  "icons": {
+    "64": "resources/icon.png",
+    "128": "resources/icon.png"
+  }
+}
