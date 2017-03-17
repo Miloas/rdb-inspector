@@ -1,17 +1,33 @@
 {
   "compilerOptions": {
-    "outDir": "./chrome/dist/",
-    "sourceMap": true,
-    "noImplicitAny": true,
-    "module": "commonjs",
+    "allowSyntheticDefaultImports": true,
     "target": "es5",
-    "jsx": "react"
+    "importHelpers": true,
+    "experimentalDecorators": true,
+    "sourceMap": true,
+    "module": "commonjs",
+    "emitDecoratorMetadata": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "noImplicitThis": true,
+    "noImplicitAny": true,
+    "noUnusedLocals": true,
+    "noImplicitReturns": true,
+    "noUnusedParameters": true,
+    "jsx": "react",
+    "baseUrl": "client",
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "outDir": "dist",
+    "lib": ["es6", "dom"]
+
   },
-  "files": [
-    "./declarations.d.ts",
-    "./src/index.tsx"
-  ],
   "exclude": [
-    "node_modules"
-  ]
+    "node_modules",
+    "lib"
+  ],
+  "compileOnSave": false,
+  "awesomeTypescriptLoaderOptions": {
+    "useCache": true
+  }
 }
