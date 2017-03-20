@@ -1,0 +1,11 @@
+.tabbed-area {
+  border: 1px solid #cccccc;
+  height: 28px;
+  overflow-x: scroll;
+  white-space: nowrap;
+  user-select: none;
+ }
+
+ .tabbed-area::-webkit-scrollbar {
+   display: none;
+ }

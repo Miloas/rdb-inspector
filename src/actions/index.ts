@@ -6,3 +6,8 @@ export const displayMessage = (message: string) => ({
 export const foo = () => ({
   type: 'FOO'
 })
+
+export const saveSelected = (idx: number) => ({
+  type: 'SAVE_SELECTED',
+  idx
+})

@@ -37,7 +37,14 @@ module.exports = (env) => {
           test: /\.css$/,
           use: [
             'style-loader',
-            'css-loader?modules',
+            {
+              loader: 'css-loader',
+              options: {
+                modules: true,
+                importLoaders: 1,
+                localIdentName: '[local]_[hash:base64:5]'
+              }
+            },
             'postcss-loader',
           ]
         }

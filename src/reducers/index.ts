@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux'
 
 import displayMessage from './displayMessage'
-
-// export default () => displayMessage
+import tabs from './tabs'
 
 export default combineReducers({
-  displayMessage
+  displayMessage,
+  tabs
 })

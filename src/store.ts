@@ -13,7 +13,6 @@ const configureStore = (initialState?: any) => {
   if (module.hot) {
     module.hot.accept('./reducers', () => {
       const nextRootReducer = require('./reducers').default
-      console.info(nextRootReducer)
       store.replaceReducer(nextRootReducer)
     })
 
