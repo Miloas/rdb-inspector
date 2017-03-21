@@ -47,8 +47,7 @@ module.exports = (env) => {
             },
             'postcss-loader',
           ]
-        }
-      ]
+        }]
     },
     resolve: {
       extensions: [".tsx", ".ts", ".js"]

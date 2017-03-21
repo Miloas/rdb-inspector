@@ -11,9 +11,8 @@
 .left-panel-select {
   border: 1px solid #ccc;
   background: transparent;
-  appearance: none;
-  height: 20px;
-  width: 70px;
+  height: 24px;
+  width: 100%;
   padding: 2px;
   padding-left: 4px;
 

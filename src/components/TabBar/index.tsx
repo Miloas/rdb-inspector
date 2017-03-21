@@ -2,7 +2,6 @@ import * as React from 'react'
 import * as CSSModules from 'react-css-modules'
 
 import Tab from '../../containers/TabContainer'
-// import Tab from '../Tab'
 
 const styles = require('./style.css')
 
