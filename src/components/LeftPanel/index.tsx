@@ -3,7 +3,9 @@ import * as CSSModuldes from 'react-css-modules'
 
 // const FaDatabase = require('react-icons/lib/fa/database')
 
-import { listDb } from '../../db'
+import { fakeListDb } from '../../db'
+// import { listDb } from '../../db'
+// import Select from '../Select'
 
 const styles = require('./style.css')
 
@@ -16,27 +18,35 @@ export default class LeftPanel extends React.PureComponent<any, any> {
     }
   }
   componentDidMount() {
-    listDb().then((dbList) => {
-      this.setState({
-        dbList: Object.keys(dbList)
-      })
-    })
+    this.refresh()
+  }
+  handleChange = (e: any) => {
+    this.props.saveCurrentDbName(e.target.value)
   }
   render() {
+    console.info(this.props)
     return (
       <div styleName='left-panel'>
         <div styleName='left-panel-container'>
-          <select styleName='left-panel-select'>
-            {/*{ this.state.dbList.map((dbName: string, idx: number) => {
-              return <span><option value={dbName} key={idx}>{dbName}</option><FaDatabase /></span>
-            })}*/}
-            <option value='123'>123</option>
-            <option value='123'>123</option>
-            <option value='123'>123</option>
+          <select styleName='left-panel-select' onChange={this.handleChange}>
+            { this.state.dbList.map((dbName: string, idx: number) => {
+              return <option value={dbName} key={idx}>{dbName}</option>
+            })}
           </select>
           <br />
         </div>
       </div>
     )
   }
+  private refresh = () => {
+    fakeListDb().then((dbList) => {
+      this.setState({
+        dbList: Object.keys(dbList)
+      })
+      if (dbList) {
+        this.props.saveCurrentDbName(Object.keys(dbList)[0])
+      }
+    })
+  }
+
 }

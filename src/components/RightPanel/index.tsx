@@ -1,69 +1,37 @@
 import * as React from 'react'
 import * as CSSModules from 'react-css-modules'
 
-import TabBar from '../TabBar'
+import TabBar from '../../containers/tabBarContainer'
 import Content from '../Content'
 
 const styles = require('./style.css')
+
+import { fakeGetRows } from '../../db'
 
 @CSSModules(styles)
 export default class RightPanel extends React.PureComponent<any, any> {
   constructor(props: any) {
     super(props)
+    this.state = {
+      content: ''
+    }
+  }
+  componentDidMount() {
+    fakeGetRows('', '', 1, 1).then((result) => {
+      const content = JSON.stringify(result)
+      this.setState({
+        content
+      })
+    })
   }
   render() {
-    const content = `
-      {
-        name: 123
-      }
-    `
     return (
       <div styleName='right-panel'>
-        <TabBar tables={ tables } />
+        <TabBar />
         <Content>
-          { content }
+          { this.state.content }
         </Content>
       </div>
     )
   }
 }
-
-const tables = [
-  { name: 'user' },
-  { name: 'posts' },
-  { name: 'posts' },
-  { name: 'posts' },
-  { name: 'posts' },
-  { name: 'posts' },
-  { name: 'posts' },
-  { name: 'posts' },
-  { name: 'posts' },
-  { name: 'posts' },
-  { name: 'posts' },
-  { name: 'posts' },
-  { name: 'posts' },
-  { name: 'posts' },
-  { name: 'posts' },
-  { name: 'posts' },
-  { name: 'posts' },
-  { name: 'posts' },
-  { name: 'posts' },
-  { name: 'posts' },
-  { name: 'posts' },
-  { name: 'posts' },
-  { name: 'posts' },
-  { name: 'posts' },
-  { name: 'posts' },
-  { name: 'posts' },
-  { name: 'posts' },
-  { name: 'posts' },
-  { name: 'posts' },
-  { name: 'posts' },
-  { name: 'posts' },
-  { name: 'posts' },
-  { name: 'posts' },
-  { name: 'posts' },
-  { name: 'posts' },
-  { name: 'posts' },
-  { name: 'user' }
-]

@@ -11,12 +11,13 @@ export default class TabBar extends React.PureComponent<any, any> {
     super(props)
   }
   render() {
-    const { tables } = this.props
+    console.info(this.props)
+    const tables = this.props.tableNames
     return (
       <div styleName='tabbed-area'>
-        { tables && tables.length ?
-          tables.map((table: any, idx: number) => <Tab tableName={table.name} key={ idx } idx={ idx } />)
-        : this.props.children
+        {tables && tables.length ?
+          tables.map((tableName: any, idx: number) => <Tab tableName={tableName} key={idx} idx={idx} />)
+          : this.props.children
         }
       </div>
     )

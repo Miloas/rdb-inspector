@@ -1,7 +1,7 @@
 import * as React from 'react'
 import * as CSSModules from 'react-css-modules'
 
-import LeftPanel from '../LeftPanel'
+import LeftPanel from '../../containers/leftPanelContainer'
 import RightPanel from '../RightPanel'
 
 const styles = require('./style.css')

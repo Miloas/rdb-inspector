@@ -37,6 +37,45 @@ export const selectDb = (dbName: string) => {
   })
 }
 
+export const fakeListDb = () => {
+  const dbs = {
+    'tb0': 1,
+    'tb1': 1
+  }
+  return new Promise((resolve) => {
+    resolve(dbs)
+  })
+}
+
+export const fakeSelectDb = (dbName: string) => {
+  const tables1 = {
+    'user': 1,
+    'post': 1
+  }
+  const tables2 = {
+    'lalala': 1,
+    'haha': 2
+  }
+  return new Promise((resolve) => {
+    if (dbName === 'tb0') {
+      resolve(tables1)
+    }
+    if (dbName === 'tb1') {
+      resolve(tables2)
+    }
+  })
+}
+
+export const fakeGetRows = (dbName: string, tableName: string, numberPerPage: number, pageNumber: number) => {
+  const contents = {
+    'name': 123
+  }
+  console.info(dbName, tableName, numberPerPage, pageNumber)
+  return new Promise((resolve) => {
+    resolve(contents)
+  })
+}
+
 // //@return how many rows
 // const selectTable = (tableName) => {
 //   return tableList[tableName]
