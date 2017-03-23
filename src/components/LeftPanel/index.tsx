@@ -1,38 +1,52 @@
 import * as React from 'react'
-import * as CSSModuldes from 'react-css-modules'
-
-// const FaDatabase = require('react-icons/lib/fa/database')
+import { Select, Button, Row, Col } from 'antd'
+const Option = Select.Option
 
 import { fakeListDb } from '../../db'
 // import { listDb } from '../../db'
-// import Select from '../Select'
 
-const styles = require('./style.css')
+import './style.css'
 
-@CSSModuldes(styles)
 export default class LeftPanel extends React.PureComponent<any, any> {
   constructor(props: any) {
     super(props)
     this.state = {
-      dbList: []
+      dbList: [],
+      value: ''
     }
   }
   componentDidMount() {
     this.refresh()
   }
-  handleChange = (e: any) => {
-    this.props.saveCurrentDbName(e.target.value)
+  handleChange = (value: any) => {
+    this.props.saveCurrentDbName(value)
+    this.setState({
+      value
+    })
   }
   render() {
-    console.info(this.props)
+    const { dbList, value } = this.state
+
     return (
-      <div styleName='left-panel'>
-        <div styleName='left-panel-container'>
-          <select styleName='left-panel-select' onChange={this.handleChange}>
-            { this.state.dbList.map((dbName: string, idx: number) => {
-              return <option value={dbName} key={idx}>{dbName}</option>
-            })}
-          </select>
+      <div className='left-panel'>
+        <div>
+          <Row gutter={8}>
+            <Col span={18}>
+              <Select
+                showSearch
+                style={{ width: '100%' }}
+                value={value}
+                onChange={this.handleChange}
+              >
+                {dbList.map((dbName: string, idx: number) => {
+                  return <Option value={dbName} key={idx}>{dbName}</Option>
+                })}
+              </Select>
+            </Col>
+            <Col span={6}>
+              <Button icon='sync' onClick={this.refresh}>refresh</Button>
+            </Col>
+          </Row>
           <br />
         </div>
       </div>
@@ -44,6 +58,9 @@ export default class LeftPanel extends React.PureComponent<any, any> {
         dbList: Object.keys(dbList)
       })
       if (dbList) {
+        this.setState({
+          value: Object.keys(dbList)[0]
+        })
         this.props.saveCurrentDbName(Object.keys(dbList)[0])
       }
     })

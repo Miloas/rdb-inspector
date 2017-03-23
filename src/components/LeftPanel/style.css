@@ -1,20 +1,4 @@
 .left-panel {
-  width: 400px;
+  border-right: 1px solid #ccc;
   height: 100vh;
-  float: left;
-}
-
-.left-panel-container {
-  margin: 4px;
-}
-
-.left-panel-select {
-  border: 1px solid #ccc;
-  background: transparent;
-  height: 24px;
-  width: 100%;
-  padding: 2px;
-  padding-left: 4px;
-
-  outline: none;
 }

@@ -15,6 +15,7 @@
     "noUnusedParameters": true,
     "jsx": "react",
     "baseUrl": "client",
+    "moduleResolution": "node",
     "typeRoots": [
       "node_modules/@types"
     ],

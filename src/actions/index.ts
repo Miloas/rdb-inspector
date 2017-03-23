@@ -7,11 +7,6 @@ export const foo = () => ({
   type: 'FOO'
 })
 
-export const saveSelected = (idx: number) => ({
-  type: 'SAVE_SELECTED',
-  idx
-})
-
 export const saveCurrentDbName = (dbName: string) => ({
   type: 'SAVE_CURRENT_DBNAME',
   dbName
