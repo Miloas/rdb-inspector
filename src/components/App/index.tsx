@@ -1,8 +1,7 @@
 import * as React from 'react'
 import { Row, Col } from 'antd'
 
-
-import LeftPanel from '../../containers/leftPanelContainer'
+import LeftPanel from '../leftPanel'
 import RightPanel from '../RightPanel'
 
 import 'antd/dist/antd.css'

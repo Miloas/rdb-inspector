@@ -19,7 +19,7 @@ export const listDb = () => {
 }
 
 export const selectDb = (dbName: string) => {
-  const evalStatement = `${evalFn}(${dbName}, null)`
+  const evalStatement = `${evalFn}("${dbName}", null)`
   // $('#db_version').text = dbList[dbName].toString()
   return new Promise((resolve, reject) => {
     chrome.devtools.inspectedWindow.eval(
@@ -50,7 +50,7 @@ export const fakeListDb = () => {
 export const fakeSelectDb = (dbName: string) => {
   const tables1 = {
     'user': 1,
-    'post': 1
+    'post': 3
   }
   const tables2 = {
     'lalala': 1,
@@ -66,13 +66,39 @@ export const fakeSelectDb = (dbName: string) => {
   })
 }
 
-export const fakeGetRows = (dbName: string, tableName: string, numberPerPage: number, pageNumber: number) => {
-  const contents = {
-    'name': 123
-  }
-  console.info(dbName, tableName, numberPerPage, pageNumber)
+export const fakeGetRows = (_: string, tableName: string, numberPerPage: number, page: number) => {
+  const post = [{
+    'post': 123
+  },
+  {
+    'post': 234
+  },
+  {
+    'post': 345
+  }]
+  const user = [{
+    'user': 234
+  }]
+  const haha = [{
+    'haha': 345
+  }]
+  const lalala = [{
+    'lalala': 456
+  }]
+  // console.info(dbName, tableName, numberPerPage, pageNumber)
   return new Promise((resolve) => {
-    resolve(contents)
+    if (tableName === 'post') {
+      resolve(post.slice((page - 1) * numberPerPage, page * numberPerPage))
+    }
+    if (tableName === 'user') {
+      resolve(user)
+    }
+    if (tableName === 'haha') {
+      resolve(haha)
+    }
+    if (tableName === 'lalala') {
+      resolve(lalala)
+    }
   })
 }
 
@@ -82,7 +108,7 @@ export const fakeGetRows = (dbName: string, tableName: string, numberPerPage: nu
 // }
 
 export const getRows = (dbName: string, tableName: string, numberPerPage: number, pageNumber: number) => {
-  const evalStatement = `${evalFn}(${dbName}, ${tableName}, ${numberPerPage}, ${(pageNumber - 1) * numberPerPage})`
+  const evalStatement = `${evalFn}("${dbName}", "${tableName}", ${numberPerPage}, ${(pageNumber - 1) * numberPerPage})`
   return new Promise((resolve, reject) => {
     chrome.devtools.inspectedWindow.eval(
       evalStatement,

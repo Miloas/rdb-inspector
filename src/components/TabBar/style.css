@@ -1,9 +1,0 @@
-.tabbed-area {
-  overflow-x: scroll;
-  white-space: nowrap;
-  user-select: none;
- }
-
- .tabbed-area::-webkit-scrollbar {
-   display: none;
- }

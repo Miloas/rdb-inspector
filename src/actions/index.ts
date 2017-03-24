@@ -1,23 +1,24 @@
-export const displayMessage = (message: string) => ({
-  type: 'SEND_MESSAGE',
-  message
-})
-
-export const foo = () => ({
-  type: 'FOO'
-})
-
-export const saveCurrentDbName = (dbName: string) => ({
-  type: 'SAVE_CURRENT_DBNAME',
+export const setCurrentDbName = (dbName: string) => ({
+  type: 'SET_CURRENT_DBNAME',
   dbName
 })
 
-export const saveCurrentTableName = (tableName: string) => ({
-  type: 'SAVE_CURRENT_TABLENAME',
+export const setCurrentTableName = (tableName: string) => ({
+  type: 'SET_CURRENT_TABLENAME',
   tableName
 })
 
-export const getTables = (tableNames: string[]) => ({
-  type: 'GET_TABLES',
+export const setCurrentPageNumber = (pageNumber: number) => ({
+  type: 'SET_CURRENT_PAGE_NUMBER',
+  pageNumber
+})
+
+export const setTables = (tableNames: string[]) => ({
+  type: 'SET_TABLES',
   tableNames
+})
+
+export const setRows = (rows: any) => ({
+  type: 'SET_ROWS',
+  rows
 })

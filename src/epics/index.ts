@@ -1,9 +1,9 @@
 import { combineEpics } from 'redux-observable'
 
-import { displayMessageEpic } from './displayMessageEpic'
-import { getTablesEpic } from './tableEpic'
+import { getTablesEpic, getInitRowsEpic, getRowsEpic } from './tableEpic'
 
 export default combineEpics(
-  displayMessageEpic,
-  getTablesEpic
+  getTablesEpic,
+  getInitRowsEpic,
+  getRowsEpic
 )

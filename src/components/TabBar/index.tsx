@@ -1,11 +1,11 @@
 import * as React from 'react'
+import { connect } from 'react-redux'
 import { Tabs } from 'antd'
 const TabPane = Tabs.TabPane
 
-// import Tab from '../../containers/TabContainer'
 import './style.css'
 
-export default class TabBar extends React.PureComponent<any, any> {
+class TabBar extends React.PureComponent<any, any> {
   constructor(props: any) {
     super(props)
     this.state = {
@@ -13,15 +13,13 @@ export default class TabBar extends React.PureComponent<any, any> {
       panes: this.constructPanes(props.tableNames)
     }
   }
-  constructPanes = (tableNames: string[]) => {
+  constructPanes = (tables: object) => {
+    const tableNames = tables ? Object.keys(tables).sort() : undefined
     return tableNames ? tableNames.map((tableName: string, idx: number) => {
       return { title: tableName, key: String(idx) }
     }) : []
   }
   componentWillReceiveProps(newValue: any) {
-    if (newValue.tableNames && newValue.tableNames.length > 0) {
-      this.props.saveCurrentTableName(newValue.tableNames[0])
-    }
     this.setState({
       activeKey: '0',
       panes: this.constructPanes(newValue.tableNames)
@@ -30,7 +28,7 @@ export default class TabBar extends React.PureComponent<any, any> {
   onChange = (activeKey: any) => {
     this.setState({ activeKey })
     const activeTitle = this.state.panes.find((pane: any) => pane.key === activeKey).title
-    this.props.saveCurrentTableName(activeTitle)
+    this.props.setCurrentTableName(activeTitle)
   }
   onEdit = (targetKey: any, action: any) => {
     this[action](targetKey)
@@ -52,7 +50,7 @@ export default class TabBar extends React.PureComponent<any, any> {
   render() {
     const { panes } = this.state
     return (
-      <div className='tabbed-area'>
+      <div>
         <Tabs
           hideAdd
           onChange={this.onChange}
@@ -68,3 +66,17 @@ export default class TabBar extends React.PureComponent<any, any> {
     )
   }
 }
+
+import { setCurrentTableName } from '../..//actions'
+
+const mapStateToProps = (state: any) => ({
+  tableNames: state.db.tableNames
+})
+
+const mapDispatchToProps = (dispatch: any, ) => ({
+  setCurrentTableName: (tableName: string) => {
+    dispatch(setCurrentTableName(tableName))
+  }
+})
+
+export default connect<{}, {}, any>(mapStateToProps, mapDispatchToProps)(TabBar)

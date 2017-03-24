@@ -1,49 +1,100 @@
 import * as React from 'react'
+import { Table } from 'antd'
+import { connect } from 'react-redux'
 
-import { fakeGetRows } from '../../db'
+import { shallowEqual } from '../../utils'
+import * as config from '../../config'
 
-export default class Content extends React.PureComponent<any, any> {
+class Content extends React.PureComponent<any, any> {
   constructor(props: any) {
     super(props)
-    this.state = {
-      content: ''
-    }
   }
-  shouldComponentUpdate(newValue: any) {
-    if (newValue.currentTableName === this.props.currentTableName) {
+  shouldComponentUpdate(newProps: any) {
+    const { contents } = this.props
+    if (!contents && newProps.contents) {
+      return true
+    }
+    if (!contents && !newProps.contents) {
       return false
     }
-    return true
-  }
-  componentWillReceiveProps(newValue: any) {
-    if (this.props.currentTableName === newValue.currentTableName) {
-      return
+    if (!shallowEqual(newProps.contents[0], contents[0])) {
+      return true
     }
-    const { currentDbName, currentTableName } = newValue
-    fakeGetRows(currentDbName, currentTableName, 1, 1).then((result) => {
-      const content = JSON.stringify(result)
-      this.setState({
-        content
-      })
-    })
+    return false
   }
-  componentDidMount() {
-    const { currentDbName, currentTableName } = this.props
-    fakeGetRows(currentDbName, currentTableName, 1, 1).then((result) => {
-      const content = JSON.stringify(result)
-      this.setState({
-        content
-      })
-    })
+  handleTableChange = (pagination: any) => {
+    this.props.savePageNumber(pagination.current)
   }
   render() {
-    console.info(this.props)
+    const { tables, currentTableName, pageNumber, contents } = this.props
+    const pagination = {
+      pageSize: config.pageSize,
+      total: tables ? tables[currentTableName] : undefined,
+      current: pageNumber
+    }
     return (
       <div>
         <pre>
-          {this.state.content}
+          {this.renderTable(contents, pagination)}
         </pre>
       </div>
     )
   }
+  private renderTable = (contents: any, pagination: any) => {
+    if (!contents) {
+      return ''
+    }
+    if (contents.length === 0) {
+      return ''
+    }
+    const headers = Object.keys(contents[0]).map((header: any, idx: number, arr: any) => {
+      const ret = {
+        title: header,
+        dataIndex: header,
+        key: header
+      }
+      if (idx === 0) {
+        ret['fixed'] = 'left'
+      } else if (idx === arr.length - 1) {
+        ret['fixed'] = 'right'
+      }
+      return ret
+    })
+    const data = contents.map((content: any, idx: any) => {
+      const ret = {}
+      for (const x in content) {
+        if (typeof content[x] === 'object') {
+          ret[x] = JSON.stringify(content[x])
+        } else {
+          ret[x] = content[x]
+        }
+      }
+      return {
+        ...ret,
+        key: String(idx)
+      }
+    })
+    return <Table
+      columns={headers}
+      pagination={pagination}
+      dataSource={data}
+      onChange={this.handleTableChange}
+      scroll={{ x: 1300 }} />
+  }
 }
+
+import { setCurrentPageNumber } from '../../actions'
+
+const mapStateToProps = (state: any) => ({
+  currentDbName: state.db.dbName,
+  currentTableName: state.db.tableName,
+  contents: state.db.rows,
+  tables: state.db.tableNames,
+  pageNumber: state.db.pageNumber
+})
+
+const mapDispatchToProps = (dispatch: any) => ({
+  savePageNumber: (pageNumber: number) => dispatch(setCurrentPageNumber(pageNumber))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Content)

@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build:dist": "webpack -p --env=prod --progress --profile --colors ",
+    "build:dist": "webpack -p --env=prod --progress --display-modules --profile --colors",
     "start": "webpack-dev-server --env=dev",
     "lint": "tslint -c tslint.json src/*.ts src/**/*.ts ./test/*.ts ./test/**/*.ts"
   },

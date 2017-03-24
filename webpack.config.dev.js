@@ -12,12 +12,12 @@ module.exports = (env) => {
     ],
     output: {
       filename: 'bundle.js',
-      path: path.join(__dirname, 'chrome/dist'),
+      path: path.resolve(__dirname, 'chrome/dist'),
       publicPath: '/'
     },
     devServer: {
       hot: true,
-      contentBase: path.join(__dirname, 'chrome/dist'),
+      contentBase: path.resolve(__dirname, 'chrome/dist'),
       publicPath: '/'
     },
     plugins: [
@@ -44,7 +44,16 @@ module.exports = (env) => {
       ]
     },
     resolve: {
-      extensions: [".tsx", ".ts", ".js"]
+      extensions: [".tsx", ".ts", ".js"],
+      alias: {
+        components: path.resolve(__dirname, 'src/components/'),
+        actions: path.resolve(__dirname, 'src/actions/'),
+        config: path.resolve(__dirname, 'src/config'),
+        db: path.resolve(__dirname, 'src/db/'),
+        epics: path.resolve(__dirname, 'src/epics/'),
+        reducers: path.resolve(__dirname, 'src/reducers/'),
+        utils: path.resolve(__dirname, 'src/utils/')
+      }
     }
   }
 }

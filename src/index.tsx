@@ -3,7 +3,7 @@ import { Provider } from 'react-redux'
 import * as ReactDOM from 'react-dom'
 import { AppContainer } from 'react-hot-loader'
 
-import App from './containers/displayApp'
+import App from './components/App'
 
 import configureStore from './store'
 
