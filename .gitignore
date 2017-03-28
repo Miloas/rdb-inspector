@@ -3,3 +3,4 @@ webpack-cache
 .DS_Store
 .awcache
 chrome/dist
+config/manifest.json

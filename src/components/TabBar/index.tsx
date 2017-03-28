@@ -5,12 +5,27 @@ const TabPane = Tabs.TabPane
 
 import './style.css'
 
-class TabBar extends React.PureComponent<any, any> {
-  constructor(props: any) {
+type PaneType = {
+  title: string,
+  key: string
+}
+
+export interface TabBarProps extends React.Props<any> {
+  tables: object[],
+  setCurrentTableName: (tableName: string) => void
+}
+
+export interface TabBarState {
+  activeKey: string,
+  panes: PaneType[]
+}
+
+class TabBar extends React.PureComponent<TabBarProps, TabBarState> {
+  constructor(props: TabBarProps) {
     super(props)
     this.state = {
       activeKey: '0',
-      panes: this.constructPanes(props.tableNames)
+      panes: this.constructPanes(props.tables)
     }
   }
   constructPanes = (tables: object) => {
@@ -19,29 +34,29 @@ class TabBar extends React.PureComponent<any, any> {
       return { title: tableName, key: String(idx) }
     }) : []
   }
-  componentWillReceiveProps(newValue: any) {
+  componentWillReceiveProps(newValue: TabBarProps) {
     this.setState({
       activeKey: '0',
-      panes: this.constructPanes(newValue.tableNames)
+      panes: this.constructPanes(newValue.tables)
     })
   }
-  onChange = (activeKey: any) => {
+  onChange = (activeKey: string) => {
     this.setState({ activeKey })
-    const activeTitle = this.state.panes.find((pane: any) => pane.key === activeKey).title
+    const activeTitle = this.state.panes.find((pane: PaneType) => pane.key === activeKey).title
     this.props.setCurrentTableName(activeTitle)
   }
-  onEdit = (targetKey: any, action: any) => {
+  onEdit = (targetKey: string, action: string) => {
     this[action](targetKey)
   }
-  remove = (targetKey: any) => {
+  remove = (targetKey: string) => {
     let activeKey = this.state.activeKey
     let lastIndex = -1
-    this.state.panes.forEach((pane: any, i: any) => {
+    this.state.panes.forEach((pane: PaneType, i: number) => {
       if (pane.key === targetKey) {
         lastIndex = i - 1
       }
     })
-    const panes = this.state.panes.filter((pane: any) => pane.key !== targetKey)
+    const panes = this.state.panes.filter((pane: PaneType) => pane.key !== targetKey)
     if (lastIndex !== -1 && lastIndex >= 0 && activeKey === targetKey) {
       activeKey = panes[lastIndex].key
     }
@@ -59,7 +74,7 @@ class TabBar extends React.PureComponent<any, any> {
           onEdit={this.onEdit}
         >
           {
-            panes ? panes.map((pane: any) => <TabPane tab={pane.title} key={pane.key} />) : ''
+            panes ? panes.map((pane: PaneType) => <TabPane tab={pane.title} key={pane.key} />) : ''
           }
         </Tabs>
       </div>
@@ -70,7 +85,7 @@ class TabBar extends React.PureComponent<any, any> {
 import { setCurrentTableName } from '../..//actions'
 
 const mapStateToProps = (state: any) => ({
-  tableNames: state.db.tableNames
+  tables: state.db.tables
 })
 
 const mapDispatchToProps = (dispatch: any, ) => ({

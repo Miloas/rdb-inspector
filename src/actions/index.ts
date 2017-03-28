@@ -13,12 +13,12 @@ export const setCurrentPageNumber = (pageNumber: number) => ({
   pageNumber
 })
 
-export const setTables = (tableNames: string[]) => ({
+export const setTables = (tables: object[]) => ({
   type: 'SET_TABLES',
-  tableNames
+  tables
 })
 
-export const setRows = (rows: any) => ({
+export const setRows = (rows: object[]) => ({
   type: 'SET_ROWS',
   rows
 })

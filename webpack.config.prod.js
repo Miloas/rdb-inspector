@@ -4,6 +4,7 @@ const webpack = require('webpack')
 
 module.exports = (env) => {
   return {
+    cache: true,
     devtool: 'source-map',
     entry: [
       './src/index.tsx'
@@ -27,7 +28,11 @@ module.exports = (env) => {
           beautify: false,
           comments: false
         }
-      })
+      }),
+      new webpack.DllReferencePlugin({
+        context: __dirname,
+        manifest: require('./config/manifest.json'),
+      }),
     ],
     module: {
       rules: [

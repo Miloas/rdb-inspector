@@ -21,7 +21,11 @@ module.exports = (env) => {
       publicPath: '/'
     },
     plugins: [
-      new webpack.HotModuleReplacementPlugin()
+      new webpack.HotModuleReplacementPlugin(),
+      new webpack.DllReferencePlugin({
+        context: __dirname,
+        manifest: require('./config/manifest.json'),
+      })
     ],
     module: {
       rules: [
@@ -44,16 +48,7 @@ module.exports = (env) => {
       ]
     },
     resolve: {
-      extensions: [".tsx", ".ts", ".js"],
-      alias: {
-        components: path.resolve(__dirname, 'src/components/'),
-        actions: path.resolve(__dirname, 'src/actions/'),
-        config: path.resolve(__dirname, 'src/config'),
-        db: path.resolve(__dirname, 'src/db/'),
-        epics: path.resolve(__dirname, 'src/epics/'),
-        reducers: path.resolve(__dirname, 'src/reducers/'),
-        utils: path.resolve(__dirname, 'src/utils/')
-      }
+      extensions: [".tsx", ".ts", ".js"]
     }
   }
 }

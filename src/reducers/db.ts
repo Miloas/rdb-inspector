@@ -1,7 +1,7 @@
 export default (state = {}, action: any) => {
   switch (action.type) {
     case 'SET_TABLES':
-      return { ...state, tableNames: action.tableNames }
+      return { ...state, tables: action.tables }
     case 'SET_ROWS':
       return { ...state, rows: action.rows }
     case 'SET_CURRENT_DBNAME':

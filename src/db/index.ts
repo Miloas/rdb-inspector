@@ -54,7 +54,7 @@ export const fakeSelectDb = (dbName: string) => {
   }
   const tables2 = {
     'lalala': 1,
-    'haha': 2
+    'haha': 1
   }
   return new Promise((resolve) => {
     if (dbName === 'tb0') {
@@ -85,7 +85,6 @@ export const fakeGetRows = (_: string, tableName: string, numberPerPage: number,
   const lalala = [{
     'lalala': 456
   }]
-  // console.info(dbName, tableName, numberPerPage, pageNumber)
   return new Promise((resolve) => {
     if (tableName === 'post') {
       resolve(post.slice((page - 1) * numberPerPage, page * numberPerPage))
@@ -108,7 +107,8 @@ export const fakeGetRows = (_: string, tableName: string, numberPerPage: number,
 // }
 
 export const getRows = (dbName: string, tableName: string, numberPerPage: number, pageNumber: number) => {
-  const evalStatement = `${evalFn}("${dbName}", "${tableName}", ${numberPerPage}, ${(pageNumber - 1) * numberPerPage})`
+  const evalStatement = `${evalFn}("${dbName}", "${tableName}", ${numberPerPage}, ${(pageNumber - 1) * numberPerPage});`
+  alert(evalStatement)
   return new Promise((resolve, reject) => {
     chrome.devtools.inspectedWindow.eval(
       evalStatement,

@@ -3,11 +3,21 @@ import { connect } from 'react-redux'
 import { Row, Col, Select, Button } from 'antd'
 const Option = Select.Option
 
-import { fakeListDb } from '../../db'
-// import { listDb } from '../../db'
+// import { fakeListDb } from '../../db'
+import { listDb } from '../../db'
 
-class LeftPanelHeader extends React.PureComponent<any, any> {
-  constructor(props: any) {
+export interface LeftPanelHeaderProps extends React.Props<any> {
+  setCurrentDbName: (dbName: string) => void,
+  setCurrentTableName: (tableName: string) => void
+}
+
+export interface LeftPanelHeaderState {
+  dbList: string[],
+  value: string
+}
+
+class LeftPanelHeader extends React.PureComponent<LeftPanelHeaderProps, LeftPanelHeaderState> {
+  constructor(props: LeftPanelHeaderProps) {
     super(props)
     this.state = {
       dbList: [],
@@ -17,7 +27,7 @@ class LeftPanelHeader extends React.PureComponent<any, any> {
   componentDidMount() {
     this.refresh()
   }
-  handleChange = (value: any) => {
+  handleChange = (value: string) => {
     this.props.setCurrentDbName(value)
     this.setState({
       value
@@ -49,7 +59,7 @@ class LeftPanelHeader extends React.PureComponent<any, any> {
     )
   }
   private refresh = () => {
-    fakeListDb().then((dbList) => {
+    listDb().then((dbList) => {
       this.setState({
         dbList: Object.keys(dbList)
       })

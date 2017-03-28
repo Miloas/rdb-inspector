@@ -6,10 +6,7 @@ import RightPanel from '../RightPanel'
 
 import 'antd/dist/antd.css'
 
-export default class App extends React.Component<any, any> {
-  constructor(props: any) {
-    super(props)
-  }
+export default class App extends React.Component<void, void> {
   render() {
     return (
       <div>

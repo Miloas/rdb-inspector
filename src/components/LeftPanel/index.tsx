@@ -5,11 +5,7 @@ import LeftPanelHeader from '../leftPanelHeader'
 
 import './style.css'
 
-export default class LeftPanel extends React.PureComponent<any, any> {
-  constructor(props: any) {
-    super(props)
-  }
-
+export default class LeftPanel extends React.PureComponent<void, void> {
   render() {
     return (
       <div className='left-panel'>

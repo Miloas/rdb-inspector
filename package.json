@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build:dist": "webpack -p --env=prod --progress --display-modules --profile --colors",
+    "build:dll": "webpack --config webpack.config.dll.js --progress --colors -p",
     "start": "webpack-dev-server --env=dev",
     "lint": "tslint -c tslint.json src/*.ts src/**/*.ts ./test/*.ts ./test/**/*.ts"
   },
@@ -12,7 +13,6 @@
   "license": "ISC",
   "dependencies": {
     "antd": "^2.8.2",
-    "classnames": "^2.2.5",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "react-redux": "^5.0.3",
