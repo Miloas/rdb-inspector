@@ -1,9 +1,9 @@
 import * as React from 'react'
-import { Table } from 'antd'
+import { Table, Modal } from 'antd'
 import { connect } from 'react-redux'
 
-// import { shallowEqual } from '../../utils'
 import * as config from '../../config'
+import './style.css'
 
 type tableType = {
   [name: string]: number
@@ -15,6 +15,11 @@ type paginationType = {
   total: number
 }
 
+export interface ContentState {
+  visible: boolean,
+  detailColumn: string
+}
+
 export interface ContentProps extends React.Props<any> {
   currentDbName: string,
   currentTableName: string,
@@ -24,25 +29,47 @@ export interface ContentProps extends React.Props<any> {
   setPageNumber: (pageNumber: number) => void
 }
 
-class Content extends React.PureComponent<ContentProps, void> {
+class Content extends React.PureComponent<ContentProps, ContentState> {
   constructor(props: ContentProps) {
     super(props)
+    this.state = {
+      visible: false,
+      detailColumn: ''
+    }
   }
+
   // shouldComponentUpdate(newProps: ContentProps) {
-  //   const { contents } = this.props
-  //   if (!contents && newProps.contents) {
+  //   if (newProps.pageNumber !== this.props.pageNumber ||
+  //       newProps.currentDbName !== this.props.currentDbName ||
+  //       newProps.currentTableName !== this.props.currentTableName) {
   //     return true
   //   }
-  //   if (!contents && !newProps.contents) {
-  //     return false
-  //   }
-  //   if (!shallowEqual(newProps.contents[0], contents[0])) {
+  //   if (newProps.contents !== undefined && this.props.contents === undefined) {
   //     return true
   //   }
   //   return false
   // }
+
   handleTableChange = (pagination: paginationType) => {
     this.props.setPageNumber(pagination.current)
+  }
+  handleOk = () => {
+    this.setState({
+      visible: false
+    })
+  }
+  handleCancel = () => {
+    this.setState({
+      visible: false
+    })
+  }
+  showModal = (text: string) => {
+    return () => {
+      this.setState({
+        visible: true,
+        detailColumn: text
+      })
+    }
   }
   render() {
     const { tables, currentTableName, pageNumber, contents } = this.props
@@ -55,6 +82,14 @@ class Content extends React.PureComponent<ContentProps, void> {
       <div>
         <pre>
           {this.renderTable(contents, pagination)}
+          <Modal title='Detail' visible={this.state.visible}
+            onOk={this.handleOk} onCancel={this.handleCancel}
+          >
+          <pre className='detail-json'>
+            { this.state.detailColumn }
+          </pre>
+          </Modal>
+
         </pre>
       </div>
     )
@@ -70,7 +105,16 @@ class Content extends React.PureComponent<ContentProps, void> {
       const ret = {
         title: header,
         dataIndex: header,
-        key: header
+        key: header,
+        render: (text: any) => {
+          if (text.type === 'object') {
+            return <a href='#' onClick={this.showModal(text.value)}>{ 'Object' }</a>
+          }
+          if (text.value.length < 29) {
+            return text.value
+          }
+          return <a href='#' onClick={this.showModal(text.value)}>{ `${text.value.substr(0, 5)}..` }</a>
+        }
       }
       if (idx === 0) {
         ret['fixed'] = 'left'
@@ -83,9 +127,9 @@ class Content extends React.PureComponent<ContentProps, void> {
       const ret = {}
       for (const x in content) {
         if (typeof content[x] === 'object') {
-          ret[x] = JSON.stringify(content[x])
+          ret[x] = { value: JSON.stringify(content[x], null, '\t'), type: 'object' }
         } else {
-          ret[x] = content[x]
+          ret[x] = { value: String(content[x]), type: 'string' }
         }
       }
       return {

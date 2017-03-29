@@ -12,7 +12,7 @@ export interface LeftPanelHeaderProps extends React.Props<any> {
 }
 
 export interface LeftPanelHeaderState {
-  dbList: string[],
+  dbList: object,
   value: string
 }
 
@@ -46,8 +46,8 @@ class LeftPanelHeader extends React.PureComponent<LeftPanelHeaderProps, LeftPane
               value={value}
               onChange={this.handleChange}
             >
-              {dbList.map((dbName: string, idx: number) => {
-                return <Option value={dbName} key={idx}>{dbName}</Option>
+              {Object.keys(dbList).map((dbName: string, idx: number) => {
+                return <Option value={dbName} key={idx}>{`${dbName} (version: ${dbList[dbName].toString()})`}</Option>
               })}
             </Select>
           </Col>
@@ -60,14 +60,15 @@ class LeftPanelHeader extends React.PureComponent<LeftPanelHeaderProps, LeftPane
   }
   private refresh = () => {
     listDb().then((dbList) => {
+      const dbNameList = Object.keys(dbList)
       this.setState({
-        dbList: Object.keys(dbList)
+        dbList
       })
       if (dbList) {
         this.setState({
-          value: Object.keys(dbList)[0]
+          value: dbNameList[0]
         })
-        this.props.setCurrentDbName(Object.keys(dbList)[0])
+        this.props.setCurrentDbName(dbNameList[0])
       }
     })
 

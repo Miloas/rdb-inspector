@@ -108,7 +108,6 @@ export const fakeGetRows = (_: string, tableName: string, numberPerPage: number,
 
 export const getRows = (dbName: string, tableName: string, numberPerPage: number, pageNumber: number) => {
   const evalStatement = `${evalFn}("${dbName}", "${tableName}", ${numberPerPage}, ${(pageNumber - 1) * numberPerPage});`
-  alert(evalStatement)
   return new Promise((resolve, reject) => {
     chrome.devtools.inspectedWindow.eval(
       evalStatement,
