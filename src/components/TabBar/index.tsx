@@ -31,8 +31,8 @@ class TabBar extends React.PureComponent<TabBarProps, TabBarState> {
   constructPanes = (tables: object) => {
     const tableNames = tables ? Object.keys(tables).sort() : undefined
     return tableNames ? tableNames.map((tableName: string, idx: number) => {
-      return { title: tableName, key: String(idx) }
-    }) : []
+      return tables[tableName] > 0 ? { title: tableName, key: String(idx) } : { title: '', key: '' }
+    }).filter((x: PaneType) => x.title !== '') : []
   }
   componentWillReceiveProps(newValue: TabBarProps) {
     this.setState({
